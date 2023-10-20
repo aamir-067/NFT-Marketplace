@@ -19,13 +19,13 @@ contract Marketplace {
         uint price;
         bool isSold;
     }
-    mapping(uint => ListItem) listitems;
-    mapping(uint => SoldItem) soldItems;
-    uint public listTtemsCount;
+    mapping(uint => ListItem) public listitems;
+    mapping(uint => SoldItem) public soldItems;
+    uint public listItemsCount;
     uint public soldItemsCount;
 
-    uint immutable fee;
-    address immutable owner;
+    uint public immutable fee;
+    address public immutable owner;
 
     // event for new listing
     event ItemListed(
@@ -53,18 +53,19 @@ contract Marketplace {
 
     function purchase(uint itemId) external payable {
         ListItem storage item = listitems[itemId];
-        uint feePrice = calculateFeePrice(item.price);
+        // uint feePrice = calculateFeePrice(item.price);
 
-        require(itemId < listTtemsCount, "This item not exists");
-        require(item.price == msg.value, "Not enough amount to purchase");
+        require(itemId > 0 && itemId <= listItemsCount, "This item not exists");
+        require(item.price <= msg.value, "Not enough amount to purchase");
         require(!item.isSold, "This item is already sold");
 
-        item.token.safeTransferFrom(address(this), msg.sender, item.tokenId);
+        item.token.transferFrom(address(this), msg.sender, item.tokenId);
         item.isSold = true;
 
-        payable(item.seller).transfer(item.price - feePrice);
-        payable(owner).transfer(feePrice);
-
+        // payable(item.seller).transfer(item.price - feePrice);
+        payable(item.seller).transfer(item.price);
+        // payable(owner).transfer(feePrice);
+        soldItemsCount++;
         // emits the SoldItem event
         emit ItemSold(
             itemId,
@@ -78,15 +79,15 @@ contract Marketplace {
 
     function listItem(ERC721 _token, uint price, uint tokenId) public {
         require(price > 0, "shold greater then 0");
-        _token.safeTransferFrom(msg.sender, address(this), tokenId);
+        _token.transferFrom(msg.sender, address(this), tokenId);
 
         // increment the listTtemsCount
         unchecked {
-            listTtemsCount++;
+            listItemsCount++;
         }
 
-        listitems[listTtemsCount] = ListItem( // store the item in teh mapping
-            listTtemsCount,
+        listitems[listItemsCount] = ListItem( // store the item in teh mapping
+            listItemsCount,
             tokenId,
             _token,
             msg.sender,
@@ -96,7 +97,7 @@ contract Marketplace {
 
         // emit the newItemList evenr
         emit ItemListed(
-            listTtemsCount,
+            listItemsCount,
             address(_token),
             tokenId,
             msg.sender,

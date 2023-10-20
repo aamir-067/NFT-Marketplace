@@ -11,6 +11,9 @@
 # production
 /build
 
+/hardhat/node_modules
+/hardhat/artifacts
+
 # misc
 .DS_Store
 .env.local
