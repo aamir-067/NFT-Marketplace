@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# NFT Marketplace DApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the NFT Marketplace DApp repository! This is a React-based decentralized application (DApp) designed for the creation, deployment, and trading of non-fungible tokens (NFTs). The purpose of this project is to facilitate the seamless exchange of NFTs within the blockchain ecosystem.
 
-## Available Scripts
+## Project Overview
 
-In the project directory, you can run:
+This application serves as an NFT marketplace where users can perform the following actions:
 
-### `npm start`
+- **Upload and Deploy NFTs:** Users can upload their unique digital assets and deploy them as NFTs on the Sepolia network.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Purchase NFTs:** Individuals can explore listed NFTs and make purchases within the platform.
+- **View Listed NFTs:** A comprehensive display of all listed NFTs available for sale within the marketplace.
+- **Sell Owned NFTs:** Users who possess NFTs in their wallets can list them for sale within the marketplace.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React.js** is employed to build the user interface for seamless interaction with the NFT marketplace.
 
-### `npm run build`
+- **Hardhat** is utilized to deploy smart contracts on the Sepolia network, enabling the creation and management of NFTs.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Ether.js** library is used to facilitate interactions between the frontend and the deployed smart contracts.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Moralis** API is integrated to enhance functionalities related with retrieval of NFT-related data.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+If you wish to set up the project locally, follow these steps:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repository:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+``` bash
+git clone https://github.com/your-username/nft-marketplace 
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Install dependencies:
+```bash
+cd nft-marketplace
+npm install
+```
 
-## Learn More
+3. Set up environment variables:
+Create an .env file and include necessary environment variables like Moralis API keys, Sepolia network configurations, etc.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. Start the development server:
+```bash
+npm run start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Remaining Work
 
-### Code Splitting
+The following tasks are yet to be completed:
+- Implementing the functionality to deploy NFTs after uploading.
+- Enabling users to view listed NFTs and purchase them.
+- interaction and connection of metamask
+- implementing redux toolkit for state management.
+- deploying contracts to chain.
+- writing test cases for contract.
+- Allowing users to sell NFTs from their wallets.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## How to Contribute
 
-### Analyzing the Bundle Size
+Your contributions to this project are highly appreciated. To contribute:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Fork the repository.
+2. Create a new branch for your feature/bug fix.
+4. Make your changes and commit them.
+5. Push your changes to your fork.
+6. Create a pull request detailing the changes made.
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
+This project is licensed under the MIT License.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Feel free to explore, contribute, or provide feedback to help improve this NFT Marketplace DApp! 🚀
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Happy coding! 🚀

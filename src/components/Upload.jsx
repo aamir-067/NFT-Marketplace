@@ -14,10 +14,10 @@ const Upload = () => {
             <div className="mx-auto max-w-5xl px-5 py-24">
                 <div className="mx-auto flex flex-wrap items-center lg:w-4/5">
                     <img
-                        alt="Nike Air Max 21A"
+                        alt=""
                         className="h-64 w-full rounded object-cover lg:h-96 lg:w-1/2"
                         // src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
-                        src={item ? URL.createObjectURL(item) : "bb"}
+                        src={item ? URL.createObjectURL(item) : ""}
                     />
                     <div className="mt-6 w-full lg:mt-0 lg:w-1/2 lg:pl-10">
                         <div className="mb-4">
