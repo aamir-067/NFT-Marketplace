@@ -1,53 +1,33 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
-
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 
-    // nfts => struct(owner, price, uploadedDate);
-
-
-    // soldIteme => struct(address, id, seller, owner, price);
-
-
 contract Marketplace {
-    struct ListItem {
-        uint id;
-        uint tokenId;
-        ERC721 token;
+    struct NftStructure {
         address seller;
+        address owner;
+        address nft;
         uint price;
         bool isSold;
     }
 
-    struct SoldItem {
-        uint id;
-        address buyer;
-        uint price;
-        bool isSold;
-    }
-    mapping(uint => ListItem) public listitems;
-    mapping(uint => SoldItem) public soldItems;
-    uint public listItemsCount;
-    uint public soldItemsCount;
+    mapping(uint => NftStructure[]) public nftCollection;
+    uint public nftsCount;
 
     uint public immutable fee;
     address public immutable owner;
 
     // event for new listing
     event ItemListed(
-        uint itemId,
         address item,
-        uint tokenId,
         address seller,
         uint price
     );
 
     // event for new purchase
     event ItemSold(
-        uint itemId,
         address item,
-        uint tokenId,
         address buyer,
         address seller,
         uint price
@@ -58,7 +38,11 @@ contract Marketplace {
         owner = msg.sender;
     }
 
+
+
     function purchase(uint itemId) external payable {
+
+        
         ListItem storage item = listitems[itemId];
         // uint feePrice = calculateFeePrice(item.price);
 

@@ -4,12 +4,6 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 
-    // nfts => struct(owner, price, uploadedDate);
-
-
-    // soldIteme => struct(address, id, seller, owner, price);
-
-
 contract Marketplace {
     struct ListItem {
         uint id;

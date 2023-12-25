@@ -1,8 +1,9 @@
-import Item from './Item';
-import Loading from "./Loading";
-import Landing from "./Landing";
-import MyTokens from "./MyTokens";
-import Nav from "./Nav";
-import Sold from "./Sold";
-import Upload from "./Upload";
-export { Item, Landing, Loading, MyTokens, Nav, Sold, Upload };
+import Item from './Item.jsx';
+import Loading from "./Loading.jsx";
+import Landing from "./Landing.jsx";
+import MyTokens from "./MyTokens.jsx";
+import Nav from "./Nav.jsx";
+import Sold from "./Sold.jsx";
+import Upload from "./Upload.jsx";
+import Home from './UploadToIpfsDemo.jsx';
+export { Item, Landing, Loading, MyTokens, Nav, Sold, Upload, Home };

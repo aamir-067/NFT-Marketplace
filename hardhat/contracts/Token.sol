@@ -8,11 +8,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract MyToken is ERC721, ERC721URIStorage, Ownable {
     uint256 public _nextTokenId;
 
-    constructor() ERC721("MyToken", "MTK") Ownable(msg.sender) {}
+    constructor(string memory _name, string memory _sign)
+    ERC721(_name , _sign)
+    Ownable(msg.sender) {}
 
     function mint(string memory uri) public {
         uint256 tokenId = _nextTokenId++;
-        _safeMint(msg.sender, tokenId);
+        _mint(msg.sender, tokenId);
         _setTokenURI(tokenId, uri);
     }
 
