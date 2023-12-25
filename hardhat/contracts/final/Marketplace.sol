@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 
 contract Marketplace {
     struct NftStructure {
+        uint itemId;
+        uint tokenId;
         address seller;
         address owner;
         address nft;
@@ -13,17 +15,11 @@ contract Marketplace {
     }
 
     mapping(uint => NftStructure[]) public nftCollection;
-    uint public nftsCount;
+    uint public currentNft;
 
     uint public immutable fee;
     address public immutable owner;
 
-    // event for new listing
-    event ItemListed(
-        address item,
-        address seller,
-        uint price
-    );
 
     // event for new purchase
     event ItemSold(
@@ -39,61 +35,73 @@ contract Marketplace {
     }
 
 
-
     function purchase(uint itemId) external payable {
 
-        
-        ListItem storage item = listitems[itemId];
-        // uint feePrice = calculateFeePrice(item.price);
+        // check for item is exist.
+        // check for its price.
+        // check wheather its already sold or not.
+        // transfer the NFT to the person.
+        // change the NFT details.
+        // transfer the amount to the NFT owner.
+        // tranfer the rest amount to the developer.
+        // emit the Sold NFT event.
 
-        require(itemId > 0 && itemId <= listItemsCount, "This item not exists");
+        require(itemId >= 0 && itemId <= listItemsCount, "This item not exists");
+
+        NftStructure storage item = nftCollection[itemId];
+
         require(item.price <= msg.value, "Not enough amount to purchase");
         require(!item.isSold, "This item is already sold");
+        // uint feePrice = calculateFeePrice(item.price);
 
-        item.token.transferFrom(address(this), msg.sender, item.tokenId);
+        IERC721(item.nft).transferFrom(item.seller, msg.sender, item.tokenId); 
+
+        // change the NFT details
         item.isSold = true;
+        item.seller = item.owner;
+        item.owner = msg.sender;
 
         // payable(item.seller).transfer(item.price - feePrice);
-        payable(item.seller).transfer(item.price);
         // payable(owner).transfer(feePrice);
-        soldItemsCount++;
+
+        payable(item.seller).transfer(item.price);
+
+
         // emits the SoldItem event
         emit ItemSold(
-            itemId,
-            address(item.token),
-            item.tokenId,
-            msg.sender,
+            item.nft,
+            item.owner,
             item.seller,
             item.price
         );
     }
 
-    function listItem(ERC721 _token, uint price, uint tokenId) public {
-        require(price > 0, "shold greater then 0");
-        _token.transferFrom(msg.sender, address(this), tokenId);
+    function listItem(address nft, uint tokenId, uint price) public {
+        
+        // price is not 0
+        // contract is approved to transfer the token.
+        // increment the totalListed var.
+        // save the record.
 
-        // increment the listTtemsCount
+        require(price > 0, "shold greater then 0");
+        require(IERC721(nft).getApproved(tokenId) == address(this), "First approve the contract.");
+
+        // increment the currentNft
         unchecked {
-            listItemsCount++;
+            currentNft++;
         }
 
-        listitems[listItemsCount] = ListItem( // store the item in teh mapping
-            listItemsCount,
+
+        nftCollection[currentNft] = NftStructure(
+            currentNft,
             tokenId,
-            _token,
             msg.sender,
+            msg.sender,
+            nft,
             price,
             false
         );
 
-        // emit the newItemList evenr
-        emit ItemListed(
-            listItemsCount,
-            address(_token),
-            tokenId,
-            msg.sender,
-            price
-        );
     }
 
     function calculateFeePrice(uint _price) internal view returns (uint) {
