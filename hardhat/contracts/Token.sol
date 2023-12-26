@@ -3,19 +3,19 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyToken is ERC721, ERC721URIStorage, Ownable {
+contract MyToken is ERC721, ERC721URIStorage {
     uint256 public _nextTokenId;
 
     constructor(string memory _name, string memory _sign)
-    ERC721(_name , _sign)
-    Ownable(msg.sender) {}
+    ERC721(_name , _sign) {}
 
-    function mint(string memory uri) public {
-        uint256 tokenId = _nextTokenId++;
+    function mint( string memory uri) public returns (uint){
+        uint tokenId  = _nextTokenId;
         _mint(msg.sender, tokenId);
         _setTokenURI(tokenId, uri);
+        _nextTokenId++;
+        return tokenId;
     }
 
     // The following functions are overrides required by Solidity.

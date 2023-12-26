@@ -1,53 +1,29 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
-
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-
-
-    // nfts => struct(owner, price, uploadedDate);
-
-
-    // soldIteme => struct(address, id, seller, owner, price);
-
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 contract Marketplace {
-    struct ListItem {
-        uint id;
+
+    struct NftStructure {
+        uint itemId;
         uint tokenId;
-        ERC721 token;
         address seller;
+        address owner;
+        address nft;
         uint price;
         bool isSold;
     }
 
-    struct SoldItem {
-        uint id;
-        address buyer;
-        uint price;
-        bool isSold;
-    }
-    mapping(uint => ListItem) public listitems;
-    mapping(uint => SoldItem) public soldItems;
-    uint public listItemsCount;
-    uint public soldItemsCount;
+    mapping(uint => NftStructure) public nftCollection;
+    uint public currentNft;
 
     uint public immutable fee;
     address public immutable owner;
 
-    // event for new listing
-    event ItemListed(
-        uint itemId,
-        address item,
-        uint tokenId,
-        address seller,
-        uint price
-    );
 
     // event for new purchase
     event ItemSold(
-        uint itemId,
         address item,
-        uint tokenId,
         address buyer,
         address seller,
         uint price
@@ -58,58 +34,74 @@ contract Marketplace {
         owner = msg.sender;
     }
 
+
     function purchase(uint itemId) external payable {
-        ListItem storage item = listitems[itemId];
+
+        // check for item is exist.
+        // check for its price.
+        // check wheather its already sold or not.
+        // transfer the NFT to the person.
+        // change the NFT details.
+        // transfer the amount to the NFT owner.
+        // tranfer the rest amount to the developer.
+        // emit the Sold NFT event.
+
+        NftStructure storage item = nftCollection[itemId];
+        
+        require(item.nft != address(0), "This item not exists");
+
+        require(item.price <= msg.value, "Not enough amount to purchase");
+        require(item.isSold == false, "This item is already sold");
         // uint feePrice = calculateFeePrice(item.price);
 
-        require(itemId > 0 && itemId <= listItemsCount, "This item not exists");
-        require(item.price <= msg.value, "Not enough amount to purchase");
-        require(!item.isSold, "This item is already sold");
+        IERC721(item.nft).transferFrom(item.seller, msg.sender, item.tokenId); 
 
-        item.token.transferFrom(address(this), msg.sender, item.tokenId);
+        // change the NFT details
         item.isSold = true;
+        item.seller = item.owner;
+        item.owner = msg.sender;
 
         // payable(item.seller).transfer(item.price - feePrice);
-        payable(item.seller).transfer(item.price);
         // payable(owner).transfer(feePrice);
-        soldItemsCount++;
+
+        payable(item.seller).transfer(item.price);
+
+
         // emits the SoldItem event
         emit ItemSold(
-            itemId,
-            address(item.token),
-            item.tokenId,
-            msg.sender,
+            item.nft,
+            item.owner,
             item.seller,
             item.price
         );
     }
 
-    function listItem(ERC721 _token, uint price, uint tokenId) public {
-        require(price > 0, "shold greater then 0");
-        _token.transferFrom(msg.sender, address(this), tokenId);
+    function listItem(address nft, uint tokenId, uint price) public {
+        
+        // price is not 0
+        // contract is approved to transfer the token.
+        // increment the totalListed var.
+        // save the record.
 
-        // increment the listTtemsCount
+        require(price > 0, "shold greater then 0");
+        require(IERC721(nft).getApproved(tokenId) == address(this), "First send the NFT to Contract.");
+
+        // increment the currentNft
         unchecked {
-            listItemsCount++;
+            currentNft++;
         }
 
-        listitems[listItemsCount] = ListItem( // store the item in teh mapping
-            listItemsCount,
+
+        nftCollection[currentNft] = NftStructure(
+            currentNft,
             tokenId,
-            _token,
             msg.sender,
+            msg.sender,
+            nft,
             price,
             false
         );
 
-        // emit the newItemList evenr
-        emit ItemListed(
-            listItemsCount,
-            address(_token),
-            tokenId,
-            msg.sender,
-            price
-        );
     }
 
     function calculateFeePrice(uint _price) internal view returns (uint) {

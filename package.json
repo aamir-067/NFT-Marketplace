@@ -45,6 +45,7 @@
 		]
 	},
 	"devDependencies": {
+		"hardhat": "^2.19.3",
 		"tailwindcss": "^3.3.3"
 	}
 }

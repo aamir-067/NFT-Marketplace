@@ -1,16 +1,14 @@
 <mxfile host="65bd71144e">
     <diagram id="v0aEU_lRMx-1ycqm5cw3" name="Page-1">
-        <mxGraphModel dx="618" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1624" dy="453" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="10" style="edgeStyle=none;html=1;entryX=0.32;entryY=-0.08;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="2" target="11" edge="1">
+                <mxCell id="10" style="edgeStyle=none;html=1;entryX=0.32;entryY=-0.08;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.457;exitY=1.036;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="12" target="11" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="130" y="170" as="targetPoint"/>
+                        <mxPoint x="130" y="110" as="sourcePoint"/>
                     </mxGeometry>
-                </mxCell>
-                <mxCell id="2" value="1. NFT Contract( name , symbol, uri )" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="20" y="65" width="220" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="4" style="edgeStyle=none;html=1;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -45,20 +43,14 @@
                 <mxCell id="5" value="Login" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="455" y="125" width="50" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" style="edgeStyle=none;html=1;" parent="1" source="7" target="2" edge="1">
+                <mxCell id="32" style="edgeStyle=none;html=1;entryX=0.912;entryY=1.069;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="7" target="12">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="7" value="list new NFT" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="295" y="125" width="90" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="deploy" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="240" y="90" width="60" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="11" value="show all the NFT as listed which whose owner is the contract." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                <mxCell id="11" value="show all the NFT as listed which is listed either its sold or not." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="20" y="200" width="350" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="12" value="2. give permission to the marketplace contract." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="20" y="40" width="270" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="21" style="edgeStyle=none;html=1;" parent="1" source="18" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -95,6 +87,15 @@
                 </mxCell>
                 <mxCell id="30" value="show him him owned NFTs" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="680" y="125" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry y="10" width="285" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="1. NFT Contract( name , symbol )&lt;br&gt;2. Mint the NFT (tokenURI) -&amp;gt; tokenID" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="31" vertex="1">
+                    <mxGeometry x="16" width="230" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="3. give permission to the marketplace contract.&lt;br&gt;4. Save the transection in the marketplace contract." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="31" vertex="1">
+                    <mxGeometry x="-15" y="25" width="300" height="40" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
