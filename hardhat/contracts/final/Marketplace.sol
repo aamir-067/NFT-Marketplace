@@ -2,8 +2,8 @@
 pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
-
 contract Marketplace {
+
     struct NftStructure {
         uint itemId;
         uint tokenId;
@@ -14,7 +14,7 @@ contract Marketplace {
         bool isSold;
     }
 
-    mapping(uint => NftStructure[]) public nftCollection;
+    mapping(uint => NftStructure) public nftCollection;
     uint public currentNft;
 
     uint public immutable fee;
@@ -46,12 +46,12 @@ contract Marketplace {
         // tranfer the rest amount to the developer.
         // emit the Sold NFT event.
 
-        require(itemId >= 0 && itemId <= listItemsCount, "This item not exists");
-
         NftStructure storage item = nftCollection[itemId];
+        
+        require(item.nft != address(0), "This item not exists");
 
         require(item.price <= msg.value, "Not enough amount to purchase");
-        require(!item.isSold, "This item is already sold");
+        require(item.isSold == false, "This item is already sold");
         // uint feePrice = calculateFeePrice(item.price);
 
         IERC721(item.nft).transferFrom(item.seller, msg.sender, item.tokenId); 
@@ -84,7 +84,7 @@ contract Marketplace {
         // save the record.
 
         require(price > 0, "shold greater then 0");
-        require(IERC721(nft).getApproved(tokenId) == address(this), "First approve the contract.");
+        require(IERC721(nft).getApproved(tokenId) == address(this), "First send the NFT to Contract.");
 
         // increment the currentNft
         unchecked {
