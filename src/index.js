@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { Landing, Upload, MyTokens, Sold, Home } from './components/index.js';
+import ShowNFT from './components/ShowNFT.jsx';
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<App />} >
     <Route path='' element={<Landing />} />
     <Route path='list' element={<Upload />} />
     <Route path='my-nfts' element={<MyTokens />} />
+    <Route path='nft-details' element={<ShowNFT />} />
     <Route path='sold-nfts' element={<Sold />} />
     <Route path='*' element={<h2>Route Not Found</h2>} />
 

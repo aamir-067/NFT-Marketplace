@@ -8,14 +8,14 @@ export async function storeFile({ fileToUpload }) {
 
         const web3storage = new Web3Storage({ token })
 
-        console.log("uploading web3storage ....", uploadingFile.name);
+        console.log("uploading web3storage ....", fileToUpload.name);
 
-        let cid = await web3storage.put([uploadingFile], {
-            name: uploadingFile?.name || name
+        let cid = await web3storage.put([fileToUpload], {
+            name: fileToUpload?.name
         })
 
         console.log(cid);
-        const fileURI = `ipfs://${cid}/${uploadingFile?.name || name}`;
+        const fileURI = `ipfs://${cid}/${fileToUpload?.name}`;
         console.log("File Link is : ", fileURI);
 
         return fileURI;
