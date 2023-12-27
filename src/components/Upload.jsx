@@ -1,4 +1,5 @@
 import React from 'react'
+import placeHolderImage from "../images/imagePlaceholder.jpg";
 const Upload = () => {
     const [name, setName] = React.useState("");
     const [description, serDescription] = React.useState("");
@@ -14,15 +15,15 @@ const Upload = () => {
             <div className="mx-auto max-w-5xl px-5 py-24">
                 <div className="mx-auto flex flex-wrap items-center lg:w-4/5">
                     <img
-                        alt=""
-                        className="h-64 w-full rounded object-cover lg:h-96 lg:w-1/2"
+                        alt="placeholder for image of the nft."
+                        className="w-full md:w-8/12 mx-auto aspect-square rounded lg:h-96 lg:w-96"
                         // src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
-                        src={item ? URL.createObjectURL(item) : ""}
+                        src={["image/png", "image/jpg", "image/jpeg"].some(t => t === item?.type) ? URL.createObjectURL(item) : placeHolderImage}
                     />
                     <div className="mt-6 w-full lg:mt-0 lg:w-1/2 lg:pl-10">
                         <div className="mb-4">
                             <input
-                        onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => setName(e.target.value)}
                                 required
                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                 type="text"

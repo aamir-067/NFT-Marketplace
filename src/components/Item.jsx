@@ -2,7 +2,7 @@ import React from 'react'
 
 const Item = ({ image, name, owner, isAvail }) => {
     return (
-        <div className="relative max-w-xs min-w-min rounded-md">
+        <div className="relative w-64 min-w-min rounded-md">
             <img
                 src={`${image}`}
                 alt="doodle nft"

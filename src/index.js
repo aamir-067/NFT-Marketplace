@@ -7,7 +7,7 @@ import { Landing, Upload, MyTokens, Sold, Home } from './components/index.js';
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<App />} >
     <Route path='' element={<Landing />} />
-    <Route path='list' element={<Home />} />
+    <Route path='list' element={<Upload />} />
     <Route path='my-nfts' element={<MyTokens />} />
     <Route path='sold-nfts' element={<Sold />} />
     <Route path='*' element={<h2>Route Not Found</h2>} />
