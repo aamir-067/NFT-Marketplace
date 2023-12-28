@@ -8,7 +8,7 @@ import ShowNFT from './components/ShowNFT.jsx';
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<App />} >
     <Route path='' element={<Landing />} />
-    <Route path='list' element={<Upload />} />
+    <Route path='list' element={<Upload />} /> // TODO make this component responsive
     <Route path='my-nfts' element={<MyTokens />} />
     <Route path='nft-details' element={<ShowNFT />} />
     <Route path='sold-nfts' element={<Sold />} />

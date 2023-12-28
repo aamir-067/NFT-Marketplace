@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 contract Marketplace {
@@ -17,7 +17,6 @@ contract Marketplace {
     mapping(uint => NftStructure) public nftCollection;
     uint public currentNft;
 
-    uint public immutable fee;
     address public immutable owner;
 
 
@@ -29,8 +28,7 @@ contract Marketplace {
         uint price
     );
 
-    constructor(uint _fee) {
-        fee = _fee;
+    constructor() {
         owner = msg.sender;
     }
 
@@ -104,8 +102,4 @@ contract Marketplace {
 
     }
 
-    function calculateFeePrice(uint _price) internal view returns (uint) {
-        uint actual = (_price * fee) / 100;
-        return actual;
-    }
 }

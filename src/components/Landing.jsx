@@ -60,7 +60,7 @@ const Landing = () => {
         <div>
             <h2 className='text-3xl font-bold my-10 text-center uppercase tracking'>Our featured collection</h2>
             <div className='w-full flex justify-center items-center'>
-                <div className='w-full flex gap-10 p-5 justify-start items-center flex-wrap'>
+                <div className='w-full flex gap-10 p-5 justify-center md:justify-start items-center flex-wrap'>
                     {
                         featuredNfts.map((nft, index) => {
                             return (
