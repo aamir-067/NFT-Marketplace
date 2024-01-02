@@ -10,10 +10,10 @@ import { Provider } from "react-redux";
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<App />} >
     <Route path='' element={<Landing />} />
-    <Route path='list' element={<Upload />} /> // TODO make this component responsive
-    <Route path='my-nfts' element={<MyTokens />} />
-    <Route path='nft-details' element={<ShowNFT />} />
-    <Route path='sold-nfts' element={<Sold />} />
+    <Route path='/list' element={<Upload />} />
+    <Route path='/my-nfts' element={<MyTokens />} />
+    <Route path='/details/:name/:id/' element={<ShowNFT />} />
+    <Route path='/sold-nfts' element={<Sold />} />
     <Route path='*' element={<h2>Route Not Found</h2>} />
 
   </Route>

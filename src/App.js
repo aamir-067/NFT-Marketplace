@@ -1,4 +1,4 @@
-import { Upload, Landing, Nav } from './components/index';
+import { Nav } from './components/index';
 import { Outlet } from 'react-router-dom';
 
 

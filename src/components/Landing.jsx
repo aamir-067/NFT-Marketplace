@@ -1,5 +1,6 @@
 import React from "react";
 import { Item } from "./index";
+import { NavLink, useNavigate } from "react-router-dom";
 const Landing = () => {
 	const featuredNfts = [
 		{
@@ -8,7 +9,7 @@ const Landing = () => {
 			owner: "0x0000000000000000000000000000000000000000",
 		},
 		{
-			name: "NFT 1",
+			name: "NFT 2",
 			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
 			owner: "0x0000000000000000000000000000000000000000",
 		},
@@ -53,7 +54,7 @@ const Landing = () => {
 			owner: "0x0000000000000000000000000000000000000000",
 		},
 	];
-
+	const navigate = useNavigate();
 	return (
 		<div>
 			<div className="md:flex block justify-evenly items-center">
@@ -73,7 +74,16 @@ const Landing = () => {
 							className=" text-slate-700 outline-none  w-full "
 							placeholder="Search"
 						/>
-						<button className="pl-2">@</button>
+						<button className="pl-2 text-lg">
+							<svg
+								viewBox="0 0 512 512"
+								fill="currentColor"
+								height="1em"
+								width="1em"
+							>
+								<path d="M456.69 421.39L362.6 327.3a173.81 173.81 0 0034.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 00327.3 362.6l94.09 94.09a25 25 0 0035.3-35.3zM97.92 222.72a124.8 124.8 0 11124.8 124.8 124.95 124.95 0 01-124.8-124.8z" />
+							</svg>
+						</button>
 					</div>
 				</form>
 			</div>
@@ -81,13 +91,17 @@ const Landing = () => {
 				<div className="w-full flex gap-10 p-5 justify-center md:justify-start items-center flex-wrap">
 					{featuredNfts.map((nft, index) => {
 						return (
-							<Item
-								key={index}
-								image={nft.image}
-								isAvail={index % 2 ? true : false}
-								name={nft.name}
-								owner={nft.owner}
-							/>
+							<div onClick={() => {
+								navigate(`/details/${nft.name}/${index}`)
+							}}
+								key={index}>
+								<Item
+									image={nft.image}
+									isAvail={index % 2 ? true : false}
+									name={nft.name}
+									owner={nft.owner}
+								/>
+							</div>
 						);
 					})}
 				</div>

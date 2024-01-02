@@ -6,6 +6,9 @@ import { initWeb3 } from "../features";
 export const initBySigner = async () => {
     try {
         if (window.ethereum) {
+            if (store.getState().web3Api.signer) {
+                return;
+            }
             const provider = new ethers.BrowserProvider(window.ethereum);
             const signer = await provider.getSigner();
             const marketplace = new ethers.Contract(marketplaceAddress, Marketplace.abi, signer);
@@ -35,6 +38,9 @@ export const initBySigner = async () => {
 export const initByProvider = async () => {
     try {
         if (window.ethereum) {
+            if (!store.getState().web3Api.provider) {
+                return;
+            }
             const provider = new ethers.BrowserProvider(window.ethereum);
             const marketplace = new ethers.Contract(marketplaceAddress, Marketplace.abi, provider);
             console.log("wallet connected");
