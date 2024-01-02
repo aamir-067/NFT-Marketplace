@@ -1,14 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 import { initByProvider, initBySigner } from '../utils';
+import { useSelector, useDispatch } from 'react-redux';
 const Nav = () => {
     const [menuToggled, setMenuToggled] = React.useState(false);
-    const web3Api = {
-        signer: { address: "0x00000000000000000000000000000" },
-        contract: null,
-        provider: null,
-    }
-
+    const web3Api = useSelector(state => state.web3Api);
     // FIXME link the metamask. also debug it.
     // TODO : fist debug the web3Api reducer and also store the signer and provider and contract.
     // TODO : make index.js file in utils and export everything from there

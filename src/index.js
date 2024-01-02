@@ -5,6 +5,8 @@ import App from './App';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { Landing, Upload, MyTokens, Sold, Home } from './components/index.js';
 import ShowNFT from './components/ShowNFT.jsx';
+import { store } from "./app/store.js";
+import { Provider } from "react-redux";
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<App />} >
     <Route path='' element={<Landing />} />
@@ -14,7 +16,6 @@ const routes = createBrowserRouter(createRoutesFromElements(
     <Route path='sold-nfts' element={<Sold />} />
     <Route path='*' element={<h2>Route Not Found</h2>} />
 
-
   </Route>
 
 
@@ -22,7 +23,9 @@ const routes = createBrowserRouter(createRoutesFromElements(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouterProvider router={routes} />
+  <Provider store={store}>
+    <RouterProvider router={routes} />
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

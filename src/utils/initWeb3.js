@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 import { marketplaceAddress } from "../CONSTANTS";
 import Marketplace from "../artifacts/Marketplace.json";
+import { store } from "../app/store";
+import { initWeb3 } from "../features";
 export const initBySigner = async () => {
     try {
         if (window.ethereum) {
@@ -18,6 +20,7 @@ export const initBySigner = async () => {
             });
 
             // store the web3Api
+            store.dispatch(initWeb3({ provider, marketplace, signer }));
 
         } else {
             console.log("please install wallet first");
@@ -44,6 +47,8 @@ export const initByProvider = async () => {
                 await initByProvider();
             });
 
+            // store the payload.
+            store.dispatch(initWeb3({ provider, marketplace, signer: null }));
 
         } else {
             console.log("please install wallet first");
