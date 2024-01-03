@@ -4,57 +4,53 @@ import { NavLink, useNavigate } from "react-router-dom";
 const Landing = () => {
 	const featuredNfts = [
 		{
-			name: "NFT 1",
+			name: "Bored Ape",
+			sold: false,
+			isOwned: false,
 			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
+			owner: "0xamplo67asda58dsgf0dgskj8dpdsgoy",
 		},
 		{
-			name: "NFT 2",
+			name: "Doddle",
+			sold: false,
+			isOwned: false,
 			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
+			owner: "0xae09x80kll32vu42bl5lk2343mnj",
 		},
 		{
-			name: "NFT 1",
+			name: "ZKY AI Portrait",
+			sold: false,
+			isOwned: false,
 			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
+			owner: "0xamplo67asda58dsgf0dgskj8dpdsgoy",
 		},
 		{
-			name: "NFT 1",
+			name: "pixels",
+			sold: false,
+			isOwned: false,
 			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
+			owner: "0x80707657hsfljkbdkllkbldfnsdlpo",
 		},
 		{
-			name: "NFT 1",
+			name: "Wall Champs",
+			sold: false,
+			isOwned: false,
 			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
+			owner: "0xae09x80kll32vu42bl5lk2343mnj",
 		},
 		{
-			name: "NFT 1",
+			name: "John Ai",
+			sold: false,
+			isOwned: false,
 			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
-		},
-		{
-			name: "NFT 1",
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
-		},
-		{
-			name: "NFT 1",
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
-		},
-		{
-			name: "NFT 1",
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
-		},
-		{
-			name: "NFT 1",
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x0000000000000000000000000000000000000000",
+			owner: "0xa90fxsfj3b25jb25kpb54234jl",
 		},
 	];
 	const navigate = useNavigate();
+
+	const handleFilter = (e) => {
+		console.log(e);
+	};
 	return (
 		<div>
 			<div className="md:flex block justify-evenly items-center">
@@ -63,12 +59,12 @@ const Landing = () => {
 				</h2>
 
 				<form
-					className="mx-auto w-8/12 md:w-96 px-10"
+					className="mx-auto w-8/12 md:w-96 px-10 flex justify-between"
 					onSubmit={(e) => {
 						e.preventDefault();
 					}}
 				>
-					<div className="border-2 w-full flex py-2 border-gray-400 rounded-full px-4">
+					<div className="border-2 w-full flex py-2 border-gray-400 rounded-sm px-4">
 						<input
 							type="text"
 							className=" text-slate-700 outline-none  w-full "
@@ -76,6 +72,7 @@ const Landing = () => {
 						/>
 						<button className="pl-2 text-lg">
 							<svg
+								className="text-gray-700"
 								viewBox="0 0 512 512"
 								fill="currentColor"
 								height="1em"
@@ -85,16 +82,36 @@ const Landing = () => {
 							</svg>
 						</button>
 					</div>
+
+					<select
+						name="filter"
+						on
+						placeholder="search filter"
+						className="py-1 mx-4 w-20 md:w-28 cursor-pointer border-2 rounded-sm border-gray-400 text-slate-700 outline-none"
+					>
+						<option value="Search filter">Search filter</option>
+						<option value="sold">Sold</option>
+						<option value="available">Available</option>
+						<option value="Sort Ascending A-Z">Sort A-Z</option>
+					</select>
 				</form>
 			</div>
 			<div className="w-full flex justify-center items-center">
 				<div className="w-full flex gap-10 p-5 justify-center md:justify-start items-center flex-wrap">
 					{featuredNfts.map((nft, index) => {
 						return (
-							<div onClick={() => {
-								navigate(`/details/${nft.name}/${index}`)
-							}}
-								key={index}>
+							<div
+								onClick={() => {
+									navigate(
+										`/details/${
+											nft.name
+										}/${index}/${false}/${
+											index % 2 ? false : true
+										}`
+									);
+								}}
+								key={index}
+							>
 								<Item
 									image={nft.image}
 									isAvail={index % 2 ? true : false}

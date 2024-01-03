@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, toBeHex } from "ethers";
 import { marketplaceAddress } from "../CONSTANTS";
 import Marketplace from "../artifacts/Marketplace.json";
 import { store } from "../app/store";
@@ -21,6 +21,7 @@ export const initBySigner = async () => {
             window.ethereum.on('accountsChanged', async () => {
                 await initBySigner();
             });
+            console.log("provider : ", toBeHex(provider._network.chainId));
 
             // store the web3Api
             store.dispatch(initWeb3({ provider, marketplace, signer }));
@@ -43,7 +44,7 @@ export const initByProvider = async () => {
             }
             const provider = new ethers.BrowserProvider(window.ethereum);
             const marketplace = new ethers.Contract(marketplaceAddress, Marketplace.abi, provider);
-            console.log("wallet connected");
+            console.log("provider : ", provider);
 
             // listen to wallet events
             window.ethereum.on('chainChanged', async () => {

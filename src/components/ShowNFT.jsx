@@ -3,8 +3,8 @@ import image from "../images/imagePlaceholder.jpg";
 import { useParams } from "react-router-dom";
 const ShowNFT = () => {
 
-	const { name, id } = useParams();
-	console.log(name, id);
+	const { name, id, isOwned, isAvail } = useParams();
+	console.log(name, id, typeof isOwned, isAvail);
 
 	return (
 		<div className="w-full flex justify-center items-center" >
@@ -32,12 +32,22 @@ const ShowNFT = () => {
 							owner : <span>0x0000000000000000000000000000</span>
 						</h2>
 
-						<button
+
+						{isOwned && <button
 							className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
 							onClick={() => { }}
 						>
-							Purchase
-						</button>
+							Sell NFT
+						</button>}
+
+						{
+							(isAvail && !isOwned) && <button
+								className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
+								onClick={() => { }}
+							>
+								Purchase
+							</button>
+						}
 					</div>
 				</div>
 
@@ -50,7 +60,7 @@ const ShowNFT = () => {
 					<h2 className="font-bold mt-4 text-2xl">Description :</h2>
 					<p className="md:ml-5">
 						Lorem ipsum dolor sit abet consectetur edit. Aspirator,
-						enid, aerial tempera perspiciatis site gusto quia optic
+						enid, aerial tempera participate site gusto quia optic
 						ornis rescinds nunquam fpga labrum inure consequent quo sed
 						legend tempore. Repudiate, voluptuous.
 					</p>

@@ -1,9 +1,10 @@
-import { fetchAllNfts, fetchSpecificNFTDetails } from "./FetchAllNfts";
-import { initByProvider, initBySigner } from "./initWeb3";
-
+import { fetchAllNfts, fetchSpecificNFTDetails } from "./FetchAllNfts.js";
+// import { getAccountNfts } from "./getAccountNfts.js";
+import { initByProvider, initBySigner } from "./initWeb3.js";
 export {
     initByProvider,
     initBySigner,
     fetchAllNfts,
-    fetchSpecificNFTDetails
+    fetchSpecificNFTDetails,
+    // getAccountNfts
 };

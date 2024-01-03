@@ -12,7 +12,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
     <Route path='' element={<Landing />} />
     <Route path='/list' element={<Upload />} />
     <Route path='/my-nfts' element={<MyTokens />} />
-    <Route path='/details/:name/:id/' element={<ShowNFT />} />
+    <Route path='/details/:name/:id/:isOwned/:isAvail' element={<ShowNFT />} />
     <Route path='/sold-nfts' element={<Sold />} />
     <Route path='*' element={<h2>Route Not Found</h2>} />
 
