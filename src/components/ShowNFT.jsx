@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import image from "../images/imagePlaceholder.jpg";
 import { useParams } from "react-router-dom";
+import SellNft from "./SellNft";
 const ShowNFT = () => {
-
+	const [isOpen, setIsOpen] = useState(false);
 	const { name, id, isOwned, isAvail } = useParams();
-	console.log(name, id, typeof isOwned, isAvail);
+	console.log(name, id, isOwned, isAvail);
+	console.log(isAvail === "true" && isOwned === "false");
 
 	return (
-		<div className="w-full flex justify-center items-center" >
+		<div className={`w-full flex justify-center relative items-center ${isOpen ? "opacity-75 bg-gray-500" : ""}`} >
 			<div className="w-11/12 lg:w-10/12">
 				<div className="block md:flex md:justify-evenly w-full md:mx-10 lg:mx-20 mt-20">
 					<img
@@ -33,19 +35,28 @@ const ShowNFT = () => {
 						</h2>
 
 
-						{isOwned && <button
+						{isOwned === "true" && <button
 							className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
-							onClick={() => { }}
+							onClick={() => { setIsOpen(true) }}
 						>
 							Sell NFT
 						</button>}
 
 						{
-							(isAvail && !isOwned) && <button
+							(isAvail === "true" && isOwned === "false") && <button
 								className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
 								onClick={() => { }}
 							>
 								Purchase
+							</button>
+						}
+
+						{
+							isAvail === "false" && <button disabled
+								className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-800 rounded-lg text-center"
+								onClick={() => { }}
+							>
+								Already sold
 							</button>
 						}
 					</div>
@@ -66,6 +77,14 @@ const ShowNFT = () => {
 					</p>
 				</div>
 			</div>
+
+
+
+			{/* for the popUp */}
+			{
+				isOpen &&
+				<SellNft handleOpen={setIsOpen} />
+			}
 		</div >
 	);
 

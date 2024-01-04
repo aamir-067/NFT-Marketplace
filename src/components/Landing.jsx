@@ -49,6 +49,7 @@ const Landing = () => {
 	const navigate = useNavigate();
 
 	const handleFilter = (e) => {
+		// TODO: complete this to filter the results.
 		console.log(e);
 	};
 	return (
