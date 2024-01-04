@@ -12,7 +12,6 @@
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
 		"chai": "^4.3.10",
-		"dotenv": "^16.3.1",
 		"ethers": "^6.9.0",
 		"hamburger-react": "^2.5.0",
 		"moralis": "^2.23.2",
@@ -27,6 +26,7 @@
 		"web3.storage": "^4.5.5"
 	},
 	"scripts": {
+		"dev": "react-scripts -r dotenv/config --experimental-json-modules start",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",

@@ -1,9 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Item from './Item';
 import { useNavigate } from 'react-router-dom';
+// import Moralis from 'moralis';
+import { EvmChain } from '@moralisweb3/common-evm-utils';
+import { moralisApi } from '../CONSTANTS';
 
 const MyTokens = () => {
     const navigate = useNavigate();
+
+    // const getAccountNfts = async (address, chain) => {
+    //     console.log(address, chain);
+    //     console.log(Moralis);
+    //     try {
+    //         // TODO: move  the apiKey to .env
+    //         await Moralis.start({
+    //             apiKey: moralisApi
+    //         });
+
+
+    //         const response = await Moralis.EvmApi.nft.getWalletNFTs({
+    //             "chain": chain,
+    //             "format": "decimal",
+    //             "mediaItems": true,
+    //             "address": address
+    //         });
+
+    //         console.log(response.result);
+    //         return response;
+    //     } catch (e) {
+    //         console.error(e);
+    //         return 'something went wrong while getting  user\'s account nfts.';
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     (async () => {
+    //         await getAccountNfts("0x575cA73E642983fF8818F0cb0Fa692A788Bc45A4", EvmChain.SEPOLIA);
+    //     })();
+    // })
+
+
     const featuredNfts = [
         {
             name: "Pikaso",

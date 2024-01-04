@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import image from "../images/imagePlaceholder.jpg";
 import { useParams } from "react-router-dom";
 import SellNft from "./SellNft";
+import { simplePrompt } from "react-simple-dialogs";
 const ShowNFT = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const { name, id, isOwned, isAvail } = useParams();
 	console.log(name, id, isOwned, isAvail);
 	console.log(isAvail === "true" && isOwned === "false");
+
+	const showPrompt = async () => {
+		const name = await simplePrompt('Please inform your name')
+
+		console.log(`User name is ${name || 'a mistery'}`)
+	}
+
 
 	return (
 		<div className={`w-full flex justify-center relative items-center ${isOpen ? "opacity-75 bg-gray-500" : ""}`} >
@@ -37,7 +45,8 @@ const ShowNFT = () => {
 
 						{isOwned === "true" && <button
 							className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
-							onClick={() => { setIsOpen(true) }}
+							// onClick={() => { setIsOpen(true) }}
+							onClick={() => { showPrompt() }}
 						>
 							Sell NFT
 						</button>}
@@ -80,11 +89,11 @@ const ShowNFT = () => {
 
 
 
-			{/* for the popUp */}
+			{/* for the popUp
 			{
 				isOpen &&
 				<SellNft handleOpen={setIsOpen} />
-			}
+			} */}
 		</div >
 	);
 

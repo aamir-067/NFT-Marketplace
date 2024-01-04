@@ -1,6 +1,6 @@
 import React from "react";
 import { Item } from "./index";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Landing = () => {
 	const featuredNfts = [
 		{
@@ -104,10 +104,8 @@ const Landing = () => {
 							<div
 								onClick={() => {
 									navigate(
-										`/details/${
-											nft.name
-										}/${index}/${false}/${
-											index % 2 ? false : true
+										`/details/${nft.name
+										}/${index}/${false}/${index % 2 ? false : true
 										}`
 									);
 								}}

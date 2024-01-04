@@ -23,7 +23,7 @@ Temp.txt
 .env.test.local
 .env.production.local
 .env
-tailwind.config.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+src/CONSTANTS.js
