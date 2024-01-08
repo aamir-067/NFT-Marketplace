@@ -1,8 +1,10 @@
 
+import { store } from "../app/store";
 import { deployNftContract } from "./deployNftContract";
 import { storeFile } from "./storage";
 import { ethers } from "ethers";
 export const mintAndListNFT = async ({ name, symbol, price, image, description }) => {
+    const { web3Api } = store.getState(state => state);
     try {
         if (web3Api.signer) {
 
@@ -15,11 +17,13 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
             // refresh the total nfts showing on the page.
 
             // upload a contract
+            console.table(name, symbol, price, image, description);
+
             const tokenContract = await deployNftContract({ name, symbol });
 
 
             // upload an image
-            const imageUri = await storeFile({ fileToUpload: image, });
+            const imageUri = await storeFile({ fileToUpload: image }); // BUG: this returns undefined
             if (!imageUri) {
                 console.error("Something went wrong while uploading an image");
                 return null;
@@ -32,6 +36,7 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
                 image: imageUri
             }
             const metaData = new File([JSON.stringify(metadataDetails)], "metadata.json");
+
             const metaDataUri = await storeFile({ fileToUpload: metaData });
             if (!metaDataUri) {
                 console.error("Something went wrong while uploading the metaData");
@@ -46,9 +51,11 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
             await tokenContract.approve(web3Api.marketplace.target, ethers.toNumber(tokenId));
 
             //save Changes in the marketplace.
-            await web3Api.Marketplace.listItem(tokenContract.target, tokenId, price);
+            const res = await web3Api.marketplace.listItem(tokenContract.target, tokenId, price);
 
+            console.log(res);
             // boom you list an NFT.
+            return true;
 
         } else {
             console.log("metamask is not installed...");

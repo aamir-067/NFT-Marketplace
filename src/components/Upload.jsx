@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import placeHolderImage from "../images/imagePlaceholder.jpg";
+import { mintAndListNFT } from "../utils";
 const Upload = () => {
 	const { register, handleSubmit } = useForm();
 	const [image, setImage] = useState(null);
-	const mintHandler = (data) => {
+
+
+	const mintHandler = async (data) => {
 		console.log(data);
 		if (data?.image[0]) {
 			setImage(data.image[0]);
 		}
+		const res = await mintAndListNFT({
+			name: data.name,
+			price: data.price,
+			symbol: data.symbol,
+			description: data.description,
+			image: data.image
+		})
 	};
+
 
 	return (
 		<section className="overflow-hidden">
