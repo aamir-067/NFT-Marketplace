@@ -9,8 +9,11 @@ const Upload = () => {
 
 	const mintHandler = async (data) => {
 		console.log(data);
-		if (data?.image[0]) {
-			setImage(data.image[0]);
+		const { name, price, symbol, description, image } = data;
+		const isEmpty = [name, price, symbol, description, image].some(item => item ? true : false);
+		if (isEmpty) {
+			console.log("Required field is empty");
+			return;
 		}
 		const res = await mintAndListNFT({
 			name: data.name,
@@ -19,6 +22,10 @@ const Upload = () => {
 			description: data.description,
 			image: data.image
 		})
+
+		if (res) {
+			console.log("Token minted successfully ... ");
+		}
 	};
 
 

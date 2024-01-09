@@ -40,7 +40,7 @@ export const fetchAllNfts = async () => {
                 }
             }
 
-            return allNFTS.length ? allNFTS : [];
+            return allNFTS
 
         } else {
             return "something went wrong while getting the listed nfts.";

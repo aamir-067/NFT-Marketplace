@@ -22,30 +22,30 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
             const tokenContract = await deployNftContract({ name, symbol });
 
 
-            // upload an image
-            const imageUri = await storeFile({ fileToUpload: image }); // BUG: this returns undefined
-            if (!imageUri) {
-                console.error("Something went wrong while uploading an image");
-                return null;
-            }
+            // upload an image // BUG: this returns undefined
+            // const imageUri = await storeFile({ fileToUpload: image }); 
+            // if (!imageUri) {
+            //     console.error("Something went wrong while uploading an image");
+            //     return null;
+            // }
 
-            // upload the metadata
-            const metadataDetails = {
-                name,
-                description,
-                image: imageUri
-            }
-            const metaData = new File([JSON.stringify(metadataDetails)], "metadata.json");
+            // upload the metadata  // BUG: this returns undefined
+            // const metadataDetails = {
+            //     name,
+            //     description,
+            //     image: imageUri
+            // }
+            // const metaData = new File([JSON.stringify(metadataDetails)], "metadata.json");
 
-            const metaDataUri = await storeFile({ fileToUpload: metaData });
-            if (!metaDataUri) {
-                console.error("Something went wrong while uploading the metaData");
-                return null;
-            }
+            // const metaDataUri = await storeFile({ fileToUpload: metaData });
+            // if (!metaDataUri) {
+            //     console.error("Something went wrong while uploading the metaData");
+            //     return null;
+            // }
 
 
             // mint the NFT.
-            const tokenId = await tokenContract.mint(metaDataUri);
+            const tokenId = await tokenContract.mint("testing");
 
             // give permission to the marketplace.
             await tokenContract.approve(web3Api.marketplace.target, ethers.toNumber(tokenId));

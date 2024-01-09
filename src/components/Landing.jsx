@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Item } from "./index";
 import { useNavigate } from "react-router-dom";
+import { fetchAllNfts } from "../utils";
 const Landing = () => {
 	const featuredNfts = [
 		{
@@ -52,6 +53,17 @@ const Landing = () => {
 		// TODO: complete this to filter the results.
 		console.log(e);
 	};
+
+	useEffect(() => {
+		console.log("effect hit");
+		(async () => {
+			const res = await fetchAllNfts();
+			console.log("all nfts are : ", res?.length, res);
+		})();
+	}, []);
+
+
+
 	return (
 		<div>
 			<div className="md:flex block justify-evenly items-center">

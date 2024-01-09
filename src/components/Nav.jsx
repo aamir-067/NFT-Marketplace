@@ -7,7 +7,7 @@ import { store } from "../app/store.js";
 import { Turn as MenuIcon } from "hamburger-react";
 const Nav = () => {
 	const [menuToggled, setMenuToggled] = useState(false);
-	const { signer, provider } = useSelector((state) => state.web3Api);
+	const { signer } = useSelector((state) => state.web3Api);
 	useEffect(() => {
 		(async () => {
 			if (signer) {
@@ -15,6 +15,7 @@ const Nav = () => {
 			}
 			await initByProvider();
 		})();
+
 	});
 
 	const handleConnect = async () => {

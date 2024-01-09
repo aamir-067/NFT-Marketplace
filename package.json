@@ -26,7 +26,6 @@
 		"web3.storage": "^4.5.5"
 	},
 	"scripts": {
-		"dev": "react-scripts -r dotenv/config --experimental-json-modules start",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
