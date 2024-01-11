@@ -7,7 +7,6 @@ contract Marketplace {
     struct NftStructure {
         uint itemId;
         uint tokenId;
-        address seller;
         address owner;
         address nft;
         uint price;
@@ -15,39 +14,29 @@ contract Marketplace {
     }
 
     NftStructure[] public nftCollection;
-    uint public currentNft;
-
-    address public immutable owner;
 
 
     // event for new purchase
     event ItemSold(
-        address item,
         address buyer,
-        address seller,
         uint price
     );
-
-    constructor() {
-        owner = msg.sender;
-    }
 
 
     function purchase(uint itemId) external payable {
 
-        NftStructure memory item = nftCollection[itemId];
         
-        require(item.nft != address(0), "This item not exists");
+        require((nftCollection.length > itemId) && (itemId >=0), "This item not exists");
 
+        NftStructure memory item = nftCollection[itemId];
         require(item.price <= msg.value, "Not enough amount to purchase");
         require(item.isSold == false, "This item is already sold");
         // uint feePrice = calculateFeePrice(item.price);
 
-        IERC721(item.nft).transferFrom(item.seller, msg.sender, item.tokenId); 
-
+        IERC721(item.nft).transferFrom(item.owner, msg.sender, item.tokenId); 
+        address nftOwner = item.owner;
         // change the NFT details
         item.isSold = true;
-        item.seller = item.owner;
         item.owner = msg.sender;
 
         // payable(item.seller).transfer(item.price - feePrice);
@@ -55,14 +44,12 @@ contract Marketplace {
 
         nftCollection[itemId] = item;
 
-        payable(item.seller).transfer(item.price);
+        payable(nftOwner).transfer(msg.value);
 
 
         // emits the SoldItem event
         emit ItemSold(
-            item.nft,
             item.owner,
-            item.seller,
             item.price
         );
     }
@@ -78,19 +65,21 @@ contract Marketplace {
         require(IERC721(nft).getApproved(tokenId) == address(this), "First send the NFT to Contract.");
 
         nftCollection.push(NftStructure(
-            currentNft,
+            nftCollection.length,
             tokenId,
-            msg.sender,
             msg.sender,
             nft,
             price,
             false
         ));
+    }
 
-        // increment the currentNft
-        unchecked {
-            currentNft++;
-        }
+    function totalNftsCount() public view returns(uint){
+        return nftCollection.length;
+    }
+
+    function getAllNFTs() public view returns(NftStructure[] memory){
+        return nftCollection;
     }
 
 }

@@ -10,17 +10,17 @@ const Upload = () => {
 	const mintHandler = async (data) => {
 		console.log(data);
 		const { name, price, symbol, description, image } = data;
-		const isEmpty = [name, price, symbol, description, image].some(item => item ? true : false);
-		if (isEmpty) {
-			console.log("Required field is empty");
-			return;
-		}
+		// const isEmpty = [name, price, symbol, description, image[0]].some(item => item ? true : false);
+		// if (isEmpty) {
+		// 	console.log("Required field is empty");
+		// 	return;
+		// }
 		const res = await mintAndListNFT({
 			name: data.name,
 			price: data.price,
 			symbol: data.symbol,
 			description: data.description,
-			image: data.image
+			image: data.image[0]
 		})
 
 		if (res) {
