@@ -17,19 +17,23 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
             // refresh the total nfts showing on the page.
 
             // upload a contract
-            console.table(name, symbol, price, image, description);
+            const json = { name: "Aamir" }
+            const temp = new File([json], "image.png");
+            console.log(temp);
 
-            const tokenContract = await deployNftContract({ name, symbol });
 
+            //console.table(name, symbol, price, image, description);
 
-            // upload an image // BUG: this returns undefined
+            //const tokenContract = await deployNftContract({ name, symbol });
+
+            // upload an image // BUG: this returns undefined //! BUG
             // const imageUri = await storeFile({ fileToUpload: image }); 
             // if (!imageUri) {
             //     console.error("Something went wrong while uploading an image");
             //     return null;
             // }
 
-            // upload the metadata  // BUG: this returns undefined
+            // upload the metadata  // BUG: this returns undefined //! BUG
             // const metadataDetails = {
             //     name,
             //     description,
@@ -45,16 +49,18 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
 
 
             // mint the NFT.
-            const tokenId = await tokenContract.mint("testing");
+            // console.log(tokenContract);
+            // const response = await tokenContract.mint("testing");
+            // await response.wait();
+
+
 
             // give permission to the marketplace.
-            await tokenContract.approve(web3Api.marketplace.target, ethers.toNumber(tokenId));
+            // const resp = await tokenContract.approve(web3Api.marketplace.target, 0);
+            // await resp.wait();
 
-            //save Changes in the marketplace.
-            const res = await web3Api.marketplace.listItem(tokenContract.target, tokenId, price);
-
-            console.log(res);
-            // boom you list an NFT.
+            // save Changes in the marketplace.
+            // const res = await web3Api.marketplace.listItem(tokenContract.target, 0, ethers.parseEther(price));
             return true;
 
         } else {
@@ -62,8 +68,8 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
             return "Connect wallet first.";
         }
     } catch (error) {
-        console.log(error.massage);
-        return error.massage || "something went wrong while deploying NFT contract";
+        console.log(error);
+        return error;
     }
 
 };

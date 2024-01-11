@@ -10,11 +10,10 @@ export const deployNftContract = async ({ name, symbol }) => {
 
             const contract = await myToken.deploy(name, symbol);
 
-
             console.log("Token deployed to the address: " + contract.target);
 
+            await contract.waitForDeployment();
             return contract;
-
 
         } else {
             console.log("metamask is not installed...");
@@ -23,6 +22,6 @@ export const deployNftContract = async ({ name, symbol }) => {
     } catch (error) {
         console.log(error);
         return error.massage || "something went wrong while deploying NFT contract";
-    }
 
+    }
 };
