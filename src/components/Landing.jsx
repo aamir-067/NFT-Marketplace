@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { Item } from "./index";
 import { useNavigate } from "react-router-dom";
-import { fetchAllNfts } from "../utils";
+import { fetchAllNfts, purchaseNFT } from "../utils";
+import { store } from "../app/store";
+import { Log, ethers } from "ethers";
+import MyToken from "../artifacts/MyToken.json";
 const Landing = () => {
 	const featuredNfts = [
 		{
@@ -48,21 +51,28 @@ const Landing = () => {
 		},
 	];
 	const navigate = useNavigate();
+	// const handleFilter = (e) => {
+	// 	// TODO: complete this to filter the results.
+	// 	console.log(e);
+	// };
 
-	const handleFilter = (e) => {
-		// TODO: complete this to filter the results.
-		console.log(e);
-	};
-
+	const NFTs = store.getState().general.allNFTs;
+	const provider = store.getState().web3Api.provider;
+	console.log(NFTs);
 	useEffect(() => {
-		console.log("effect hit");
 		(async () => {
 			const res = await fetchAllNfts();
-			console.log("all nfts are : ", res?.length, res);
+			console.log("nft fetch result", res);
 		})();
 	}, []);
 
 
+	const getNFTUri = async (address, id) => { // TODO: test this
+		const nftContract = new ethers.Contract(address, MyToken.abi, provider);
+		const uri = await nftContract.tokenURI(id);
+		console.log("NFT URI", uri);
+		return uri ? uri : "undefined";
+	}
 
 	return (
 		<div>
@@ -70,6 +80,13 @@ const Landing = () => {
 				<h2 className="lg:text-3xl w-full md:w-8/12 lg:w-9/12  text-center text-2xl font-bold my-10 whitespace-nowrap uppercase tracking">
 					Our featured collection
 				</h2>
+				<button
+					type="button"
+					onClick={() => purchaseNFT({ nftId: 0 })}
+					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:px-4 py-1 px-2 md:py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+				>
+					Purchase NFT 01
+				</button>
 
 				<form
 					className="mx-auto w-8/12 md:w-96 px-10 flex justify-between"
@@ -111,6 +128,7 @@ const Landing = () => {
 			</div>
 			<div className="w-full flex justify-center items-center">
 				<div className="w-full flex gap-10 p-5 justify-center md:justify-start items-center flex-wrap">
+					{/* Hard coated NFTs */}
 					{featuredNfts.map((nft, index) => {
 						return (
 							<div
@@ -128,6 +146,30 @@ const Landing = () => {
 									isAvail={index % 2 ? true : false}
 									name={nft.name}
 									owner={nft.owner}
+								/>
+							</div>
+						);
+					})}
+
+					{/*  real NFTs */}
+					{NFTs.map((NFT, index) => {
+						const uri = getNFTUri(NFT[3], ethers.toNumber(NFT[1]));
+						return (
+							<div
+								// onClick={() => { // FIXME
+								// 	navigate(
+								// 		`/details/${"temp"
+								// 		}/${index}/${false}/${index % 2 ? false : true
+								// 		}`
+								// 	);
+								// }}
+								key={index}
+							>
+								<Item
+									image={"https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"}
+									isAvail={NFT[5]}
+									name={uri}
+									owner={NFT[2]}
 								/>
 							</div>
 						);

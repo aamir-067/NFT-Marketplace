@@ -39,7 +39,7 @@ export const initBySigner = async () => {
 export const initByProvider = async () => {
     try {
         if (window.ethereum) {
-            if (!store.getState().web3Api.provider) {
+            if (store.getState().web3Api.provider) {
                 return;
             }
             const provider = new ethers.BrowserProvider(window.ethereum);
