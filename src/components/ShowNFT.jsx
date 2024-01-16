@@ -1,13 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import image from "../images/imagePlaceholder.jpg";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SellNft from "./SellNft";
 import { simplePrompt } from "react-simple-dialogs";
+import MyToken from "../artifacts/MyToken.json";
+import { ethers } from "ethers";
+import { store } from "../app/store";
 const ShowNFT = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const { name, id, isOwned, isAvail } = useParams();
-	console.log(name, id, isOwned, isAvail);
-	console.log(isAvail === "true" && isOwned === "false");
+	const { itemId } = useParams();
+	const [name, setName] = useState("");
+	const navigate = useNavigate(false);
+
+
+	var thatNFT = store.getState().general.allNFTs[+itemId];
+
+	useEffect(() => {
+		(async () => {
+			const provider = store.getState().web3Api.provider;
+			const contract = new ethers.Contract(thatNFT[3], MyToken.abi, provider);
+
+			const tokenName = await contract.name();
+			setName(tokenName);
+		})();
+
+		if (typeof +itemId !== "number") {
+			navigate("/error");
+			return;
+		}
+	}, []);
+
 
 	const showPrompt = async () => {
 		const name = await simplePrompt('Please inform your name')
@@ -31,19 +53,16 @@ const ShowNFT = () => {
 								{name}
 							</h2>
 							<h2 className="text-xl lg:text-2xl font-bold">
-								Price : 0.3 eth
+								{ethers.formatEther(thatNFT[4])}
 							</h2>
 						</div>
-						<h2 className="text-gray-800 hidden md:block">#{id}</h2>
+						<h2 className="text-gray-800 hidden md:block">#{ethers.toNumber(thatNFT[0])}</h2>
 						<h2 className="font-bold text-md lg:text-lg mt-2 md:mt-5">
-							seller : <span>0x0000000000000000000000000000</span>
-						</h2>
-						<h2 className="font-bold text-md lg:text-lg mt-2 md:mt-5">
-							owner : <span>0x0000000000000000000000000000</span>
+							owner : <span>{thatNFT[2]}</span>
 						</h2>
 
 
-						{isOwned === "true" && <button
+						{/* {isOwned === "true" && <button
 							className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
 							// onClick={() => { setIsOpen(true) }}
 							onClick={() => { showPrompt() }}
@@ -58,16 +77,16 @@ const ShowNFT = () => {
 							>
 								Purchase
 							</button>
-						}
+						} */}
 
-						{
+						{/* {
 							isAvail === "false" && <button disabled
 								className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-800 rounded-lg text-center"
 								onClick={() => { }}
 							>
 								Already sold
 							</button>
-						}
+						} */}
 					</div>
 				</div>
 

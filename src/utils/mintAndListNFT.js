@@ -8,21 +8,12 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
     try {
         if (web3Api.signer) {
 
-            // deploy contract.
-            // upload picture and get uri
-            // upload metadata and get uri.
-            // mint nft
-            // give permission to the marketplace
-            // save changes in the marketplace.
-            // refresh the total nfts showing on the page.
 
             // upload a contract
             const json = { name: "Aamir" }
             const temp = new File([json], "image.png");
             console.log(temp);
 
-
-            //console.table(name, symbol, price, image, description);
 
             //const tokenContract = await deployNftContract({ name, symbol });
 
