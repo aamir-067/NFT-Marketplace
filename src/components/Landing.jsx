@@ -68,7 +68,6 @@ const Landing = () => {
 		})();
 	}, []);
 
-
 	const getNFTUri = async (address = "0xF40a041f9808c1681d200c880a9601Ee2df90337", id = 0) => {
 		const provider = store.getState().web3Api.provider;
 		console.log(provider);

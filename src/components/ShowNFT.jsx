@@ -30,7 +30,6 @@ const ShowNFT = () => {
 		}
 	}, []);
 
-
 	const showPrompt = async () => {
 		const name = await simplePrompt('Please inform your name')
 
