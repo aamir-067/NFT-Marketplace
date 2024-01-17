@@ -6,7 +6,6 @@ import PinataSDK from "@pinata/sdk";
 import fs from "fs";
 
 import { uploadToCloudinary } from "../utils/cloudinary.js";
-import path from "path";
 
 
 
@@ -40,7 +39,6 @@ export const uploadFile = asyncHandler(async (req, res) => {
 
 export const getAccountDetails = asyncHandler(async (req, res) => {
     const { address, chain } = req.params;
-    console.log(address, chain);
     if (!address) {
         throw new ApiError(401, "route not found");
     }
@@ -58,13 +56,40 @@ export const getAccountDetails = asyncHandler(async (req, res) => {
     if (!response) {
         throw new ApiError(403, "something went wrong while fetching the NFTs");
     }
-    console.log(response);
 
 
     return res.status(200).json(
         new ApiResponse(200, "OK", { response })
     )
 });
+
+export const getNftDetails = asyncHandler(async (req, res) => {
+    const { address, chain, tokenId } = req.params;
+    if ([address, chain, tokenId].some(item => item === undefined)) {
+        throw new ApiError(401, "route not found");
+    }
+
+    await Moralis.start({
+        apiKey: process.env.MORALIS_API_KEY
+    });
+
+    const response = await Moralis.EvmApi.nft.getNFTMetadata({
+        "chain": chain,
+        "format": "decimal",
+        "normalizeMetadata": true,
+        "mediaItems": true,
+        "address": address,
+        "tokenId": tokenId
+    });
+
+    if (!response) {
+        throw new ApiError(403, "something went wrong while fetching the NFT details");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, "OK", { response })
+    )
+})
 
 
 export const uploadByPinata = asyncHandler(async (req, res) => {
@@ -80,8 +105,6 @@ export const uploadByPinata = asyncHandler(async (req, res) => {
             name: file.filename
         }
     })
-    console.log("file : ", file);
-    console.log("response v2 :", responseV2)
 
     fs.unlinkSync(file.path)
 
@@ -91,5 +114,4 @@ export const uploadByPinata = asyncHandler(async (req, res) => {
             ipfsLink: `ipfs://${responseV2.IpfsHash}`
         })
     )
-
 });
