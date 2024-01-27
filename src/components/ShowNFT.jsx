@@ -6,14 +6,23 @@ import { simplePrompt } from "react-simple-dialogs";
 import MyToken from "../artifacts/MyToken.json";
 import { ethers } from "ethers";
 import { store } from "../app/store";
+import axios from "axios";
+import { serverApi } from "../CONSTANTS";
 const ShowNFT = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const { itemId } = useParams();
 	const [name, setName] = useState("");
 	const navigate = useNavigate(false);
 
-
 	var thatNFT = store.getState().general.allNFTs[+itemId];
+
+	const getNftDetails = async () => {
+		const { chainId } = await store.getState().web3Api.provider.getNetwork()
+		const response = await axios.get(serverApi + `/${chainId}/${thatNFT[3]}/:${thatNFT[1]}`)
+		console.log("nft details by server is ==>", response);
+	}
+
+
 
 	useEffect(() => {
 		(async () => {

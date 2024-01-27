@@ -5,6 +5,5 @@ import MyTokens from "./MyTokens.jsx";
 import Nav from "./Nav.jsx";
 import Sold from "./Sold.jsx";
 import Upload from "./Upload.jsx";
-import Home from './UploadToIpfsDemo.jsx';
 import SellNft from './SellNft.jsx';
-export { Item, Landing, Loading, MyTokens, Nav, Sold, Upload, Home, SellNft };
+export { Item, Landing, Loading, MyTokens, Nav, Sold, Upload, SellNft };

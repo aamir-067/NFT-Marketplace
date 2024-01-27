@@ -1,7 +1,6 @@
 
 import { store } from "../app/store";
 import { deployNftContract } from "./deployNftContract";
-import { storeFile } from "./storage";
 import { ethers } from "ethers";
 export const mintAndListNFT = async ({ name, symbol, price, image, description }) => {
     const { web3Api } = store.getState(state => state);
