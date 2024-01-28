@@ -1,4 +1,5 @@
 import { fetchAllNfts } from "./FetchAllNfts.js";
+import { getNftDetails } from "./getNftDetails.js";
 // import { getAccountNfts } from "./getAccountNfts.js";
 import { initByProvider, initBySigner } from "./initWeb3.js";
 import { listNFT } from "./listNft.js";
@@ -11,6 +12,7 @@ export {
     fetchAllNfts,
     mintAndListNFT,
     purchaseNFT,
-    listNFT
+    listNFT,
+    getNftDetails
     // getAccountNfts
 };

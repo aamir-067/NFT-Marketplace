@@ -9,16 +9,21 @@ import { store } from "../app/store";
 import axios from "axios";
 import { serverApi } from "../CONSTANTS";
 const ShowNFT = () => {
+
+
 	const [isOpen, setIsOpen] = useState(false);
-	const { itemId } = useParams();
+	const { owner, nft, tokenId, isSold } = useParams();
 	const [name, setName] = useState("");
 	const navigate = useNavigate(false);
 
-	var thatNFT = store.getState().general.allNFTs[+itemId];
+	// var thatNFT = store.getState().general.allNFTs[+itemId];
+	// console.log(thatNFT);
 
 	const getNftDetails = async () => {
-		const { chainId } = await store.getState().web3Api.provider.getNetwork()
-		const response = await axios.get(serverApi + `/${chainId}/${thatNFT[3]}/:${thatNFT[1]}`)
+		const { chainId } = await store.getState().web3Api.provider.getNetwork();
+		console.log(serverApi + `/${chainId}/${nft}/${tokenId}`);
+		const response = await fetch(serverApi + `/${chainId}/${nft}/${tokenId}`);
+		// const res = await response.();
 		console.log("nft details by server is ==>", response);
 	}
 
@@ -27,16 +32,18 @@ const ShowNFT = () => {
 	useEffect(() => {
 		(async () => {
 			const provider = store.getState().web3Api.provider;
-			const contract = new ethers.Contract(thatNFT[3], MyToken.abi, provider);
+			// const contract = new ethers.Contract(thatNFT[3], MyToken.abi, provider);
 
-			const tokenName = await contract.name();
-			setName(tokenName);
+			// const tokenName = await contract.name();
+			// setName(tokenName);
+			setName("test");
+			getNftDetails();
 		})();
 
-		if (typeof +itemId !== "number") {
-			navigate("/error");
-			return;
-		}
+		// if (typeof +itemId !== "number") {
+		// 	navigate("/error");
+		// 	return;
+		// }
 	}, []);
 
 	const showPrompt = async () => {
@@ -61,12 +68,16 @@ const ShowNFT = () => {
 								{name}
 							</h2>
 							<h2 className="text-xl lg:text-2xl font-bold">
-								{ethers.formatEther(thatNFT[4])}
+								{/* {ethers.formatEther(thatNFT[4])} */} testing
 							</h2>
 						</div>
-						<h2 className="text-gray-800 hidden md:block">#{ethers.toNumber(thatNFT[0])}</h2>
+						<h2 className="text-gray-800 hidden md:block">#
+							{/* {ethers.toNumber(thatNFT[0])} */}
+						</h2>
 						<h2 className="font-bold text-md lg:text-lg mt-2 md:mt-5">
-							owner : <span>{thatNFT[2]}</span>
+							owner : <span>
+								{/* {thatNFT[2]} */}
+							</span>
 						</h2>
 
 
