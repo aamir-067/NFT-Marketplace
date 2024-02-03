@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Item = ({ image, name, owner }) => {
     return (
         <div className="relative cursor-pointer overflow-hidden lg:w-60 md:w-52 w-40 rounded-md">
@@ -12,7 +10,8 @@ const Item = ({ image, name, owner }) => {
             <div className="absolute p-4 bottom-0 pt-10 w-full text-left bg-gradient-to-t from-gray-900 to-transparent">
                 <h1 className="text-lg overflow-hidden pr-4 font-semibold whitespace-nowrap text-white">{name}</h1>
                 <p className="mt-2 text-sm text-gray-300">
-                    Owner : {`${[...owner].slice(0, 5).join("")}....`}
+                    {/* Owner : {`${[...owner].slice(0, 5).join("")}....`} */}
+                    #{owner}
                 </p>
 
 

@@ -1,43 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Item from './Item';
 import { useNavigate } from 'react-router-dom';
-// import Moralis from 'moralis';
+import { store } from "../app/store";
+import axios from "axios";
+import { serverApi } from "../CONSTANTS";
 import { EvmChain } from '@moralisweb3/common-evm-utils';
 import { moralisApi } from '../CONSTANTS';
+import image from "../images/imagePlaceholder.jpg";
 
 const MyTokens = () => {
     const navigate = useNavigate();
+    const [allNfts, setAllNfts] = useState([]);
 
-    // const getAccountNfts = async (address, chain) => {
-    //     console.log(address, chain);
-    //     console.log(Moralis);
-    //     try {
-    //         // TODO: move  the apiKey to .env
-    //         await Moralis.start({
-    //             apiKey: moralisApi
-    //         });
+    const fetchDetails = async (connectedWallet) => {
+        const { chainId } = await store.getState().web3Api.provider.getNetwork();
+
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `${serverApi}/${chainId}/${connectedWallet}/nfts`,
+            });
+            console.log("response =>", response.data.data.response.result);
+            setAllNfts(response.data.data.response.result)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        const connectedWallet = store.getState().web3Api.signer?.address;
+        connectedWallet && fetchDetails(connectedWallet);
+    }, [])
 
 
-    //         const response = await Moralis.EvmApi.nft.getWalletNFTs({
-    //             "chain": chain,
-    //             "format": "decimal",
-    //             "mediaItems": true,
-    //             "address": address
-    //         });
-
-    //         console.log(response.result);
-    //         return response;
-    //     } catch (e) {
-    //         console.error(e);
-    //         return 'something went wrong while getting  user\'s account nfts.';
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     (async () => {
-    //         await getAccountNfts("0x575cA73E642983fF8818F0cb0Fa692A788Bc45A4", EvmChain.SEPOLIA);
-    //     })();
-    // })
 
 
     const featuredNfts = [
@@ -66,17 +61,17 @@ const MyTokens = () => {
             </div>
             <div className="w-full flex justify-center items-center">
                 <div className="w-full flex gap-10 p-5 justify-center md:justify-start items-center flex-wrap">
-                    {featuredNfts.map((nft, index) => {
+                    {allNfts.map((nft, index) => {
                         return (
                             <div onClick={() => {
-                                navigate(`/details/${nft.name}/${index}/${true}/${true}`)
+                                navigate(`/details/${nft.owner_of}/${nft.token_address}/${nft.token_id}/${false}`)
                             }}
                                 key={index}>
                                 <Item
-                                    image={nft.image}
+                                    image={(nft.media && nft?.media?.original_media_url.slice(0, 4) === "ipfs") ? `https://gateway.pinata.cloud/ipfs/${nft?.media?.original_media_url.replace("ipfs://", "")}` : image}
                                     isAvail={index % 2 ? true : false}
                                     name={nft.name}
-                                    owner={nft.owner}
+                                    owner={nft.token_id}
                                     isOwned={true}
                                 />
                             </div>
@@ -84,7 +79,7 @@ const MyTokens = () => {
                     })}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
