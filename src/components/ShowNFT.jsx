@@ -13,37 +13,41 @@ const ShowNFT = () => {
 
 	const [isOpen, setIsOpen] = useState(false);
 	const { owner, nft, tokenId, isSold } = useParams();
-	const [name, setName] = useState("");
+	const [details, setDetails] = useState({});
+	const [isOwned, setIsOwner] = useState(false);
 	const navigate = useNavigate(false);
 
-	// var thatNFT = store.getState().general.allNFTs[+itemId];
-	// console.log(thatNFT);
-
+	console.log(isSold);
 	const getNftDetails = async () => {
 		const { chainId } = await store.getState().web3Api.provider.getNetwork();
-		console.log(serverApi + `/${chainId}/${nft}/${tokenId}`);
-		const response = await fetch(serverApi + `/${chainId}/${nft}/${tokenId}`);
-		// const res = await response.();
-		console.log("nft details by server is ==>", response);
+		const connectedWallet = store.getState().web3Api.signer?.address;
+		console.log(`${serverApi}/${chainId}/${nft}/${tokenId}`);
+		try {
+			const response = await axios({
+				method: 'get',
+				url: `${serverApi}/${chainId}/${nft}/${tokenId}`,
+			});
+			console.log("response =>", response.data.data.response);
+			setDetails(response.data.data.response);
+
+
+			response.data.data.response.owner_of?.toLocaleLowerCase() === connectedWallet?.toLocaleLowerCase() ? setIsOwner(true) : setIsOwner(false);
+
+			console.log(response.data.data.response.owner_of?.toLocaleLowerCase(), connectedWallet?.toLocaleLowerCase(), isOwned)
+		} catch (error) {
+			console.error(error);
+		}
+
 	}
 
 
 
 	useEffect(() => {
 		(async () => {
-			const provider = store.getState().web3Api.provider;
-			// const contract = new ethers.Contract(thatNFT[3], MyToken.abi, provider);
 
-			// const tokenName = await contract.name();
-			// setName(tokenName);
-			setName("test");
 			getNftDetails();
 		})();
 
-		// if (typeof +itemId !== "number") {
-		// 	navigate("/error");
-		// 	return;
-		// }
 	}, []);
 
 	const showPrompt = async () => {
@@ -59,29 +63,27 @@ const ShowNFT = () => {
 				<div className="block md:flex md:justify-evenly w-full md:mx-10 lg:mx-20 mt-20">
 					<img
 						className="w-8/12 mx-auto md:mx-0 md:w-4/12"
-						src={image}
+						src={details.media && `https://gateway.pinata.cloud/ipfs/${details.media.original_media_url.replace("ipfs://", "")}`}
 						alt="a placeholder picture i will remove it later"
 					/>
 					<div className="md:mx-10">
 						<div className=" block md:flex justify-between mt-5">
 							<h2 className="text-2xl font-bold">
-								{name}
+								{details.symbol ? details.symbol : ""}
 							</h2>
-							<h2 className="text-xl lg:text-2xl font-bold">
-								{/* {ethers.formatEther(thatNFT[4])} */} testing
-							</h2>
+
 						</div>
 						<h2 className="text-gray-800 hidden md:block">#
-							{/* {ethers.toNumber(thatNFT[0])} */}
+							{tokenId}
 						</h2>
 						<h2 className="font-bold text-md lg:text-lg mt-2 md:mt-5">
 							owner : <span>
-								{/* {thatNFT[2]} */}
+								{details.owner_of ? details.owner_of : ""}
 							</span>
 						</h2>
 
 
-						{/* {isOwned === "true" && <button
+						{isOwned === true && <button
 							className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
 							// onClick={() => { setIsOpen(true) }}
 							onClick={() => { showPrompt() }}
@@ -89,7 +91,7 @@ const ShowNFT = () => {
 							Sell NFT
 						</button>}
 
-						{
+						{/* {
 							(isAvail === "true" && isOwned === "false") && <button
 								className="md:w-full w-11/12 mx-auto mt-10 py-5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-center dark:bg-blue-600"
 								onClick={() => { }}
@@ -111,16 +113,18 @@ const ShowNFT = () => {
 
 				{/* NFT collection details */}
 				<div className="my-10 md:mx-10 lg:mx-20">
+					<h2 className="text-2xl font-bold">
+						Name : {details.name ? details.name : ""}
+					</h2>
 					<h2 className="font-bold md:text-lg">
-						Token Address : <span>0x0000000000000000000000</span>
+						Token Address : <span>{nft}</span>
 					</h2>
 
 					<h2 className="font-bold mt-4 text-2xl">Description :</h2>
 					<p className="md:ml-5">
-						Lorem ipsum dolor sit abet consectetur edit. Aspirator,
-						enid, aerial tempera participate site gusto quia optic
-						ornis rescinds nunquam fpga labrum inure consequent quo sed
-						legend tempore. Repudiate, voluptuous.
+						{
+							details.metadata ? JSON.parse(details.metadata).description : "not available"
+						}
 					</p>
 				</div>
 			</div>

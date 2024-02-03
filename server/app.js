@@ -9,10 +9,11 @@ app.use(express.urlencoded({ limit: "200kb", extended: true }));
 
 app.use(express.static('public'));
 
-app.use(cors({
+const corsOption = {
     whitelist: process.env.CORS_ORIGIN,
     credentials: true
-}));
+}
+app.use(cors());
 
 
 app.use("/api/v1", router);

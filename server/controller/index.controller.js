@@ -7,7 +7,7 @@ import fs from "fs";
 
 import { uploadToCloudinary } from "../utils/cloudinary.js";
 
-
+let temp = false;
 
 
 
@@ -43,9 +43,12 @@ export const getAccountDetails = asyncHandler(async (req, res) => {
         throw new ApiError(401, "route not found");
     }
 
-    await Moralis.start({
-        apiKey: process.env.MORALIS_API_KEY
-    });
+    if (!temp) {
+        await Moralis.start({
+            apiKey: process.env.MORALIS_API_KEY
+        });
+        temp = !temp;
+    }
 
     const response = await Moralis.EvmApi.nft.getWalletNFTs({
         "chain": chain,
@@ -69,9 +72,13 @@ export const getNftDetails = asyncHandler(async (req, res) => {
         throw new ApiError(401, "route not found");
     }
 
-    await Moralis.start({
-        apiKey: process.env.MORALIS_API_KEY
-    });
+    if (!temp) {
+        await Moralis.start({
+            apiKey: process.env.MORALIS_API_KEY
+        });
+        temp = !temp;
+    }
+
 
     const response = await Moralis.EvmApi.nft.getNFTMetadata({
         "chain": chain,
