@@ -13,7 +13,7 @@ const corsOption = {
     whitelist: process.env.CORS_ORIGIN,
     credentials: true
 }
-app.use(cors());
+app.use(cors(corsOption));
 
 
 app.use("/api/v1", router);

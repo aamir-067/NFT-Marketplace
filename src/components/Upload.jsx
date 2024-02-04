@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import placeHolderImage from "../images/imagePlaceholder.jpg";
 import { mintAndListNFT } from "../utils";
@@ -6,21 +6,24 @@ const Upload = () => {
 	const { register, handleSubmit } = useForm();
 	const [image, setImage] = useState(null);
 
+	const form = useRef(null);
 
 	const mintHandler = async (data) => {
 		console.log(data);
 		const { name, price, symbol, description, image } = data;
-		// const isEmpty = [name, price, symbol, description, image[0]].some(item => item ? true : false);
-		// if (isEmpty) {
-		// 	console.log("Required field is empty");
-		// 	return;
-		// }
+		const formData = new FormData(form.current);
+		const isEmpty = [name, price, symbol, description, image[0]].some(item => item ? true : false);
+		if (!isEmpty) {
+			console.log("Required field is empty");
+			return;
+		}
+		setImage(image[0])
 		const res = await mintAndListNFT({
-			name: data.name,
-			price: data.price,
-			symbol: data.symbol,
-			description: data.description,
-			image: data.image[0]
+			name,
+			price: +price,
+			symbol,
+			description,
+			image: image[0]
 		})
 
 		if (res) {
@@ -33,6 +36,7 @@ const Upload = () => {
 		<section className="overflow-hidden">
 			<div className="mx-auto max-w-5xl px-5 py-24">
 				<form
+					ref={form}
 					onSubmit={handleSubmit(mintHandler)}
 					className="mx-auto flex flex-wrap items-center lg:w-4/5"
 				>
@@ -86,6 +90,7 @@ const Upload = () => {
 							<input
 								id="nftImage"
 								{...register("image")}
+								onChange={(e) => { setImage(e.target.files[0]) }}
 								className="block w-full text-gray-900 border border-gray-300 rounded-sm cursor-pointer bg-gray-50  focus:outline-none p-0.5"
 								type="file"
 							/>

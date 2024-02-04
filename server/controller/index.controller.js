@@ -101,12 +101,19 @@ export const getNftDetails = asyncHandler(async (req, res) => {
 
 export const uploadByPinata = asyncHandler(async (req, res) => {
     const file = req.file;
+
+    console.log(file);
     if (!file) {
         throw new ApiError(401, "file is missing");
     }
 
-    const pinata = new PinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
+    let pinata;
+    if (!pinata) {
+        pinata = new PinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
+    }
+
     const readableStreamForFile = fs.createReadStream(file.path);
+
     const responseV2 = await pinata.pinFileToIPFS(readableStreamForFile, {
         pinataMetadata: {
             name: file.filename
@@ -117,7 +124,7 @@ export const uploadByPinata = asyncHandler(async (req, res) => {
 
     return res.status(200).json(
         new ApiResponse(200, "OK", {
-            ipfsHas: responseV2.IpfsHash,
+            ipfsHash: responseV2.IpfsHash,
             ipfsLink: `ipfs://${responseV2.IpfsHash}`
         })
     )
