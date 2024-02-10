@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { upload } from "../middleware/multer.middleware.js"
-import { getAccountDetails, healthCheck, uploadFile, uploadByPinata, getNftDetails } from "../controller/index.controller.js";
+import { getAccountDetails, healthCheck, uploadFile, uploadByPinata, getNftDetails, uploadMetadata } from "../controller/index.controller.js";
 
 
 const router = new Router();
@@ -15,5 +15,6 @@ router.route("/:chain/:address/nfts").get(getAccountDetails)
 router.route("/:chain/:address/:tokenId").get(getNftDetails);
 
 router.route("/upload-to-ipfs").post(upload.single("file"), uploadByPinata);
+router.route("/upload-metadata").post(uploadMetadata);
 export { router }
 
