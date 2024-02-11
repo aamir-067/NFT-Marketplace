@@ -1,55 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Item } from "./index";
 import { useNavigate } from "react-router-dom";
 import { fetchAllNfts, purchaseNFT } from "../utils";
 import { store } from "../app/store";
 import { ethers } from "ethers";
 import MyToken from "../artifacts/MyToken.json";
+import { serverApi } from "../CONSTANTS";
+import axios from "axios";
 const Landing = () => {
-	const featuredNfts = [
-		{
-			name: "Bored Ape",
-			sold: false,
-			isOwned: false,
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0xamplo67asda58dsgf0dgskj8dpdsgoy",
-		},
-		{
-			name: "Doddle",
-			sold: false,
-			isOwned: false,
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0xae09x80kll32vu42bl5lk2343mnj",
-		},
-		{
-			name: "ZKY AI Portrait",
-			sold: false,
-			isOwned: false,
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0xamplo67asda58dsgf0dgskj8dpdsgoy",
-		},
-		{
-			name: "pixels",
-			sold: false,
-			isOwned: false,
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0x80707657hsfljkbdkllkbldfnsdlpo",
-		},
-		{
-			name: "Wall Champs",
-			sold: false,
-			isOwned: false,
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0xae09x80kll32vu42bl5lk2343mnj",
-		},
-		{
-			name: "John Ai",
-			sold: false,
-			isOwned: false,
-			image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-			owner: "0xa90fxsfj3b25jb25kpb54234jl",
-		},
-	];
+	const [temp, setTemp] = useState([]);
+
 	const navigate = useNavigate();
 
 	// const handleFilter = (e) => {
@@ -57,14 +17,39 @@ const Landing = () => {
 	// 	console.log(e);
 	// };
 
-	const NFTs = store.getState().general.allNFTs;
+	let NFTs = store.getState().general.allNFTs;
 
-
-	console.log(NFTs);
+	const getDetails = async (nft, tokenId) => {
+		const { chainId } = await store.getState().web3Api.provider.getNetwork();
+		console.log(`${serverApi}/${chainId}/${nft}/${tokenId}`);
+		try {
+			const response = await axios({
+				method: 'get',
+				url: `${serverApi}/${chainId}/${nft}/${tokenId}`,
+			});
+			console.log("response =>", response.data.data.response);
+			return response.data.data.response;
+		} catch (error) {
+			console.error(error);
+		}
+	}
 	useEffect(() => {
 		(async () => {
 			const res = await fetchAllNfts();
-			console.log("nft fetch result", res);
+			console.log("nft fetch result", res.length);
+			let tamp = new Array(res.length);
+			res.map((nft, index) => {
+				getDetails(nft[3], ethers.toNumber(nft[1])).then(res => {
+					tamp[index] = {
+						name: res.name,
+						tokenId: res.token_id,
+						owner: res.owner_of,
+						address: res.token_address,
+						isAvail: true
+					};
+					setTemp(tamp);
+				});
+			})
 		})();
 	}, []);
 
@@ -74,7 +59,7 @@ const Landing = () => {
 		const nftContract = new ethers.Contract(address, MyToken.abi, provider);
 		const uri = await nftContract.tokenURI(id);
 		console.log("NFT URI", uri);
-		return uri ? uri : "undefined";
+		return uri ? uri : "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60";
 	}
 
 	return (
@@ -83,13 +68,6 @@ const Landing = () => {
 				<h2 className="lg:text-3xl w-full md:w-8/12 lg:w-9/12  text-center text-2xl font-bold my-10 whitespace-nowrap uppercase tracking">
 					Our featured collection
 				</h2>
-				<button
-					type="button"
-					onClick={() => getNFTUri("0xF40a041f9808c1681d200c880a9601Ee2df90337", 0)}
-					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:px-4 py-1 px-2 md:py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-				>
-					Purchase NFT 01
-				</button>
 
 				<form
 					className="mx-auto w-8/12 md:w-96 px-10 flex justify-between"
@@ -131,32 +109,10 @@ const Landing = () => {
 			</div>
 			<div className="w-full flex justify-center items-center">
 				<div className="w-full flex gap-10 p-5 justify-center md:justify-start items-center flex-wrap">
-					{/* Hard coated NFTs */}
-					{/* {featuredNfts.map((nft, index) => {
-						return (
-							<div
-								onClick={() => {
-									navigate(
-										`/details/${nft.name
-										}/${index}/${false}/${index % 2 ? false : true
-										}`
-									);
-								}}
-								key={index}
-							>
-								<Item
-									image={nft.image}
-									isAvail={index % 2 ? true : false}
-									name={nft.name}
-									owner={nft.owner}
-								/>
-							</div>
-						);
-					})} */}
 
 					{/*  real NFTs */}
-					{NFTs.map((NFT, index) => {
-						{/* const uri = getNFTUri(NFT[3], ethers.toNumber(NFT[1])); */ }
+					{/* {NFTs.map((NFT, index) => {
+						const uri = getNFTUri(NFT[3], ethers.toNumber(NFT[1]));
 						return (
 							<div
 								onClick={() => { // FIXME
@@ -167,10 +123,32 @@ const Landing = () => {
 								key={index}
 							>
 								<Item
-									image={"https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"}
+									image={uri}
 									isAvail={NFT[5]}
 									name={"temp"}
-									owner={NFT[2]}
+									tokenId={ethers.toNumber(NFT[1])}
+								/>
+							</div>
+						);
+					})} */}
+
+					{/* test real nfts */}
+					{NFTs.map((nft, index) => {
+						let NFT = temp[index];
+						return (
+							<div
+								onClick={() => {
+									navigate(
+										`/details/${NFT.owner}/${NFT.address}/${ethers.toNumber(NFT.tokenId)}/${NFT.isAvail}`
+									);
+								}}
+								key={index}
+							>
+								<Item
+									image={"https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"}
+									isAvail={NFT.isAvail}
+									name={NFT.name}
+									tokenId={NFT.tokenId}
 								/>
 							</div>
 						);

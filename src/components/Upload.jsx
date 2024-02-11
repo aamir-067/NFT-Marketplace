@@ -17,7 +17,7 @@ const Upload = () => {
 			console.log("Required field is empty");
 			return;
 		}
-		setImage(image[0])
+		setImage(image[0]);
 		const res = await mintAndListNFT({
 			name,
 			price: +price,

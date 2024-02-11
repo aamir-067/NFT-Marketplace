@@ -1,4 +1,3 @@
-
 import { store } from "../app/store";
 import { deployNftContract } from "./deployNftContract";
 import { ethers } from "ethers";
@@ -15,6 +14,7 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
             // upload an image
             const data = new FormData();
             data.append("file", image);
+            console.log(image);
             const res = await axios({
                 method: "POST",
                 url: `${serverApi}/upload-to-ipfs`,
@@ -24,7 +24,7 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
                 }
             })
             const imageUri = res.data.data.ipfsLink
-
+            console.log(imageUri);
             if (!imageUri) {
                 console.error("Something went wrong while uploading an image");
                 return null;
@@ -38,18 +38,12 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
                 image: imageUri,
                 name
             }
-            const tokenData = new File([JSON.stringify(json)], `metadata.json`);
-            console.log(tokenData);
 
-            const meta = new FormData();
-            meta.append("file", tokenData);
+
             let response = await axios({
                 method: "POST",
-                url: `${serverApi}/upload-to-ipfs`,
-                data: meta,
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
+                url: `${serverApi}/upload-metadata`,
+                data: json
             })
 
             const metadataUri = res.data.data.ipfsLink;
@@ -58,18 +52,16 @@ export const mintAndListNFT = async ({ name, symbol, price, image, description }
                 return null;
             }
 
-            console.log(metadataUri);
+            console.log('meta ==> ', res.data.data);
 
             // mint the NFT.
             // console.log(tokenContract);
             response = await tokenContract.mint(metadataUri);
-            await response.wait();
-
-
+            // await response.wait();
 
             // give permission to the marketplace.
             const resp = await tokenContract.approve(web3Api.marketplace.target, 0);
-            await resp.wait();
+            // await resp.wait();
 
             // save Changes in the marketplace.
             await web3Api.marketplace.listItem(tokenContract.target, 0, ethers.parseEther(price + ""));

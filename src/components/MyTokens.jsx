@@ -71,7 +71,7 @@ const MyTokens = () => {
                                     image={(nft.media && nft?.media?.original_media_url.slice(0, 4) === "ipfs") ? `https://gateway.pinata.cloud/ipfs/${nft?.media?.original_media_url.replace("ipfs://", "")}` : image}
                                     isAvail={index % 2 ? true : false}
                                     name={nft.name}
-                                    owner={nft.token_id}
+                                    tokenId={nft.token_id}
                                     isOwned={true}
                                 />
                             </div>

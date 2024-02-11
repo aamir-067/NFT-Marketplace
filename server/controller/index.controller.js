@@ -91,6 +91,8 @@ export const getNftDetails = asyncHandler(async (req, res) => {
         "tokenId": tokenId
     });
 
+
+    console.log(response);
     if (!response) {
         throw new ApiError(403, "something went wrong while fetching the NFT details");
     }

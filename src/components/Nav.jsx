@@ -56,36 +56,23 @@ const Nav = () => {
 						<button
 							type="button"
 							onClick={handleConnect}
-							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:px-4 py-1 px-2 md:py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:px-4 py-2 px-2 md:py-2 text-center dark:bg-blue-600"
 						>
 							{signer?.address ? "Log out" : "wallet connect"}
 						</button>
 
 						{/* onClick={() => { setMenuToggled(!menuToggled) }} */}
 						<button
-							// onClick={() => {
-							// 	setMenuToggled(!menuToggled);
-							// }}
-							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden dark:text-gray-400"
+							onClick={() => {
+								setMenuToggled(prev => !prev);
+							}}
+							className="inline-flex items-center w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden dark:text-gray-400"
 							aria-controls="navbar-cta"
 							aria-expanded="false"
 						>
-							<MenuIcon toggled={menuToggled} toggle={setMenuToggled} />
-							{/* <svg
-								className="w-5 h-5"
-								aria-hidden="true"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 17 14"
-							>
-								<path
-									stroke="currentColor"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M1 1h15M1 7h15M1 13h15"
-								/>
-							</svg> */}
+							<MenuIcon toggled={menuToggled} />
+							{/* <MenuIcon toggled={menuToggled} toggle={setMenuToggled} /> */}
+
 						</button>
 					</div>
 
@@ -98,7 +85,7 @@ const Nav = () => {
 							<li>
 								<NavLink
 									onClick={() => {
-										setMenuToggled(!menuToggled);
+										setMenuToggled(prev => !prev);
 									}}
 									to=""
 									className={({ isActive }) =>
@@ -112,7 +99,7 @@ const Nav = () => {
 							<li>
 								<NavLink
 									onClick={() => {
-										setMenuToggled(!menuToggled);
+										setMenuToggled(prev => !prev);
 									}}
 									to="list"
 									className={({ isActive }) =>
@@ -123,24 +110,10 @@ const Nav = () => {
 									List NFT
 								</NavLink>
 							</li>
-							{/* <li>
-								<NavLink
-									onClick={() => {
-										setMenuToggled(!menuToggled);
-									}}
-									to="sold-nfts"
-									className={({ isActive }) =>
-										`block py-2 pl-3 ${isActive ? "text-blue-700" : ""
-										} pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`
-									}
-								>
-									Sold NFTs
-								</NavLink>
-							</li> */}
 							<li>
 								<NavLink
 									onClick={() => {
-										setMenuToggled(!menuToggled);
+										setMenuToggled(prev => !prev);
 									}}
 									to="my-nfts"
 									className={({ isActive }) =>

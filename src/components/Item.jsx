@@ -1,4 +1,4 @@
-const Item = ({ image, name, owner }) => {
+const Item = ({ image, name, tokenId }) => {
     return (
         <div className="relative cursor-pointer overflow-hidden lg:w-60 md:w-52 w-40 rounded-md">
             <img
@@ -11,7 +11,7 @@ const Item = ({ image, name, owner }) => {
                 <h1 className="text-lg overflow-hidden pr-4 font-semibold whitespace-nowrap text-white">{name}</h1>
                 <p className="mt-2 text-sm text-gray-300">
                     {/* Owner : {`${[...owner].slice(0, 5).join("")}....`} */}
-                    #{owner}
+                    #{tokenId}
                 </p>
 
 
